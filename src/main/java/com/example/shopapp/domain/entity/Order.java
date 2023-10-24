@@ -1,50 +1,59 @@
-//package com.example.shopapp.domain.entity;
-//
-//import com.example.shopapp.domain.enums.OrderStatus;
-//import jakarta.persistence.*;
-//import jakarta.validation.constraints.NotNull;
-//import lombok.AllArgsConstructor;
-//import lombok.Builder;
-//import lombok.Data;
-//import lombok.NoArgsConstructor;
-//import org.hibernate.annotations.CreationTimestamp;
-//import org.hibernate.annotations.UpdateTimestamp;
-//
-//import java.math.BigDecimal;
-//import java.time.LocalDateTime;
-//
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
-//@Entity
-//@Table(name = "order")
-//public class Order {
-//    private static final String SEQ_NAME = "order_seq";
-//
-//    @Column(name = "id")
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
-//    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME)
-//    private int id;
-//
-//    @CreationTimestamp
-//    private LocalDateTime created;
-//
-//    @UpdateTimestamp
-//    private LocalDateTime updated;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
-//
-//    @Column(name = "sum")
-//    @NotNull
-//    private BigDecimal sum;
-//
-////    @OneToMany(cascade = CascadeType.ALL)
-////    private List<OrderDetails> details = new ArrayList<>();
-//
-//    @Enumerated(EnumType.STRING)
-//    private OrderStatus status;
-//}
+package com.example.shopapp.domain.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "orders")
+public class Order {
+
+    @Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
+    @Column(name = "total_price")
+    private BigDecimal totalPrice;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id && Objects.equals(createdAt, order.createdAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, createdAt);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
+}

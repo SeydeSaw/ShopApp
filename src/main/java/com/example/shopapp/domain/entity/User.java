@@ -2,84 +2,83 @@ package com.example.shopapp.domain.entity;
 
 import com.example.shopapp.domain.enums.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @NoArgsConstructor
 //@Builder
+@Getter
+@Setter
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
-    private static final String SEQ_NAME = "user_seq";
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
-    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1) //шаг последовательности
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(name = "username", unique = true)
-    @NotEmpty
-    @NotNull
     private String username;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "age")
-    private int age;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    @Column(name = "city")
-    private String city;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @Column(name = "email", unique = true)
-    @Email
-    @NotEmpty
-    @NotNull
     private String email;
 
-    @NotEmpty
-    @NotNull
+    @Column(name = "password")
     private String password;
-    @Column(name = "balance")
-    private double balance;
-
-//    @Enumerated(EnumType.STRING)
-//    private Role role;
-
-    @OneToOne(cascade = CascadeType.REMOVE) // удаляя пользователя удаляется и корзина
-    private Cart cart;
 
 
-    public User(long id, @NotNull String username, Cart cart) {
-        this.id = id;
-        this.username = username;
-        this.cart = cart;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "client", fetch = FetchType.LAZY) // удаляя пользователя удаляется и корзина
+    private Set<Cart> carts = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "seller", fetch = FetchType.LAZY) // удаляя пользователя удаляется и корзина
+    private Set<Product> products = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(email, user.email);
     }
 
-    public long getId() {
-        return id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, email);
     }
 
-    public String getName() {
-        return username;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
-    public Cart getCart() {
-        return cart;
-    }
-
-//    public User(long userId, String username, Cart cart) {
-//    }
-
-
-    //    @OneToMany(cascade = CascadeType.REMOVE) // удаляя пользователя удаляются все заказы
-//    private Order order;
 }

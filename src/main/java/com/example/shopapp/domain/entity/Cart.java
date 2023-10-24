@@ -1,10 +1,12 @@
 package com.example.shopapp.domain.entity;
 
+import com.example.shopapp.domain.enums.CartStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 //@Getter
 //@Setter
@@ -13,51 +15,57 @@ import java.util.List;
 @AllArgsConstructor
 //@Builder
 @Entity
-@Table(name = "cart")
+@Table(name = "carts")
 public class Cart {
-    private static final String SEQ_NAME = "cart_seq";
 
     @Column(name = "id")
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
-    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private User client;
 
-    @ManyToMany
-    @JoinTable(name = "cart_product", // имя таблицы с которой работаем
-            joinColumns = @JoinColumn(name = "cart_id"), // указываем поле которое ссылается на нашу сущность
-            inverseJoinColumns = @JoinColumn(name = "product_id")) // где лежит ссылка на наши продукты
-    private List<Product> product = new ArrayList<>();
+    @JsonIgnore
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Order order;
 
-    public Cart(User user) {
-        this.user = user;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private CartStatus status;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<OrderDetail> orderDetails = new HashSet<>();
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cart cart = (Cart) o;
+        return id == cart.id && Objects.equals(createdAt, cart.createdAt);
     }
 
-    public void setProduct(List<Product> product) {
-        this.product = product;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, createdAt);
     }
 
-    public List<Product> getProduct() {
-        return new ArrayList<>(product);
-    }
-
-    public void addProduct(Product product) {
-        product.add(new Product(product.getId(), product.getName(), product.getPrice()));
-    }
-
-    public void removeProduct(Product product) {
-        product.remove(product);
-    }
-
-    public void clear() {
-        product.clear();
-    }
-
-    public double getTotalPrice() {
-        return product.stream().mapToDouble(Product::getPrice).reduce(Double::sum).orElse(0); //(JpaProduct::getPrice).sum();
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "id=" + id +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }

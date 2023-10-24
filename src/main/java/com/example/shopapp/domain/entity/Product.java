@@ -1,80 +1,71 @@
 package com.example.shopapp.domain.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 @Getter
 @Setter
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 public class Product  {
-    private static final String SEQ_NAME = "product_seq";
 
     @Column(name = "id")
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = SEQ_NAME)
-    @SequenceGenerator(name = SEQ_NAME, sequenceName = SEQ_NAME, allocationSize = 1)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id", referencedColumnName = "id")
+    private User seller;
 
     @Column(name = "name")
-    @NotNull
-    @NotEmpty
-    @Pattern(regexp = "[A-Z][a-z]{2,}")
     private String name;
 
     @Column(name = "price")
-    @NotNull
-    @Min(value = 1)
-    @Max(value = 999999)
-    private double price;
+    private BigDecimal price;
 
-    @Column(name = "description", length = 1000)
-    @NotNull
-    @NotEmpty
+    @Column(name = "description")
     private String description;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "category_id", nullable = true)
-//    private Category category;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "products_categories",
-//            joinColumns = @JoinColumn(name = "product_id"),
-//            inverseJoinColumns = @JoinColumn(name = "category_id"))
-//    private List<Category> categories;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-//    @Column(name = "image")
-//    private String imageUrl;
-    
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<OrderDetail> orderDetails = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return id == product.id; // prduct.getId()
+        return id == product.id && Objects.equals(createdAt, product.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, createdAt);
     }
 
-    public Product(long id, @NotNull String name, @NotNull double price) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-    }
-
-    public void add(Product product) {
-    }
-
-    public void remove(Product product) {
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
     }
 }
