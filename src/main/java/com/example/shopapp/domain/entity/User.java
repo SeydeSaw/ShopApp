@@ -4,16 +4,14 @@ import com.example.shopapp.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Data
 @NoArgsConstructor
-//@Builder
-@Getter
-@Setter
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -31,22 +29,21 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
     @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
     private String password;
 
-
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "client", fetch = FetchType.LAZY) // удаляя пользователя удаляется и корзина
     private Set<Cart> carts = new HashSet<>();
@@ -74,11 +71,11 @@ public class User {
                 ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

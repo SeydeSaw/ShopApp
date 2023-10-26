@@ -8,12 +8,9 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//@Getter
-//@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Builder
 @Entity
 @Table(name = "carts")
 public class Cart {

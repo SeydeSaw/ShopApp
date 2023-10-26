@@ -1,33 +1,54 @@
-//package com.example.shopapp.service.impl;
-//
-//import com.example.shopapp.domain.entity.Cart;
-//import com.example.shopapp.domain.entity.User;
-//import com.example.shopapp.service.ProductService;
-//import com.example.shopapp.service.UserService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//
-//import java.util.List;
-//
-////
-////import com.example.shopapp.domain.entity.User;
-////import com.example.shopapp.repository.UserRepository;
-////import com.example.shopapp.service.UserService;
-////import org.slf4j.LoggerFactory;
-////import org.springframework.beans.factory.annotation.Autowired;
-////import org.springframework.security.authentication.AuthenticationManager;
-////import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-////import org.springframework.security.core.context.SecurityContextHolder;
-////import org.springframework.security.core.userdetails.UserDetails;
-////import org.springframework.security.core.userdetails.UserDetailsService;
-////import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-////
-////import java.util.logging.Logger;
-////
-//public class UserServiceImpl implements UserService {
-//
-//    @Autowired
-//    private UserRepository repository;
-//
+package com.example.shopapp.service.impl;
+
+import com.example.shopapp.domain.entity.User;
+import com.example.shopapp.domain.enums.Role;
+import com.example.shopapp.dto.UserDto;
+import com.example.shopapp.repository.UserRepository;
+import com.example.shopapp.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+
+@RequiredArgsConstructor
+@Service
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
+
+    @Transactional
+    @Override
+    public User createNewClient(UserDto userDto) {
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+        user.setRole(Role.CLIENT);
+        userRepository.save(user);
+        return user;
+    }
+    @Transactional
+    @Override
+    public User createNewSeller(UserDto userDto) {
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+        user.setRole(Role.SELLER);
+        userRepository.save(user);
+        return user;
+    }
+}
+
 //    @Autowired
 //    private ProductService productService;
 //    @Override
@@ -35,10 +56,6 @@
 //        return repository.getAll();
 //    }
 //
-//    @Override
-//    public void add(User user) {
-//        repository.add(user.getName());
-//    }
 //
 ////    @Override
 ////    public void login(String username, String password) {

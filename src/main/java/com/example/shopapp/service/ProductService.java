@@ -1,10 +1,11 @@
 package com.example.shopapp.service;
 
 import com.example.shopapp.domain.entity.Product;
-
-import java.util.List;
+import com.example.shopapp.dto.ProductDto;
 
 public interface ProductService {
+    Product createNewProduct(ProductDto productDto);
+
 //    List<Product> getAll();
 //
 //    Product getById(long id);

@@ -2,18 +2,13 @@ package com.example.shopapp.dto;
 
 import lombok.*;
 
-@NoArgsConstructor
+import java.math.BigDecimal;
+
 @Data
-@AllArgsConstructor
 public class ProductDto {
-    private long id;
+    private Long sellerId;
     private String name;
-    private double price;
+    private BigDecimal price;
     private String description;
 
-
-
-
-
-    //    private String imageUrl;
 }

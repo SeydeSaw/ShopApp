@@ -1,5 +1,6 @@
 package com.example.shopapp.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -7,9 +8,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -19,6 +20,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
@@ -31,7 +33,6 @@ public class Order {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
 
 
     @Override
@@ -51,9 +52,9 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
+                ", totalPrice=" + totalPrice +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-                ", totalPrice=" + totalPrice +
                 '}';
     }
 }

@@ -1,15 +1,23 @@
 package com.example.shopapp.controllers;
 
 import com.example.shopapp.domain.entity.Product;
+import com.example.shopapp.dto.ProductDto;
 import com.example.shopapp.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequiredArgsConstructor
+@RequestMapping(path = "/product")
 public class ProductController {
+
+    private final ProductService productService;
+
+    @PostMapping("/create")
+    private Product createNewProduct(@RequestBody ProductDto productDto) {
+        return productService.createNewProduct(productDto);
+    }
 
 //    @Autowired
 //    private ProductService service;

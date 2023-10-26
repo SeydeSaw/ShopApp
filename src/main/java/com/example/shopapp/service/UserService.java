@@ -1,10 +1,14 @@
 package com.example.shopapp.service;
 
 import com.example.shopapp.domain.entity.User;
+import com.example.shopapp.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
+    User createNewClient(UserDto userDto);
+    User createNewSeller(UserDto userDto);
+
 //    List<User> getAll();
 //
 //    void add(User user);
