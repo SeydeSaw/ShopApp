@@ -63,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductDto getMapperById(long id) {
+    public ProductDto getById(long id) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not find"));
         ProductDto newMapperProductDto = productMapper.mapToDto(product);
         return newMapperProductDto;
