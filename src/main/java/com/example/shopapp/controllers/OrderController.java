@@ -1,13 +1,11 @@
 package com.example.shopapp.controllers;
 
 import com.example.shopapp.domain.entity.Order;
+import com.example.shopapp.dto.CartDto;
 import com.example.shopapp.dto.OrderDto;
 import com.example.shopapp.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,5 +17,20 @@ public class OrderController {
     @PostMapping("/create")
     public Order createNewOrder(@RequestBody OrderDto orderDto) {
         return orderService.createNewOrder(orderDto);
+    }
+
+    @GetMapping("/{id}")
+    public OrderDto getById(@PathVariable long id) {
+        return orderService.getById(id);
+    }
+
+    @PutMapping("/update/{id}")
+    public OrderDto updateById(@RequestBody OrderDto orderDto, @PathVariable long id) {
+        return orderService.updateById(orderDto, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteOrderById(@PathVariable long id) {
+        orderService.deleteOrderById(id);
     }
 }

@@ -5,9 +5,20 @@ import com.example.shopapp.dto.UserDto;
 
 import java.util.List;
 
+
 public interface UserService {
     User createNewClient(UserDto userDto);
     User createNewSeller(UserDto userDto);
+
+    UserDto getById(long id);
+
+    List<UserDto> getAll();
+    UserDto updateById(UserDto userDto, long id);
+
+    void deleteUserById(Long id);
+
+
+
 
 //    List<User> getAll();
 //
