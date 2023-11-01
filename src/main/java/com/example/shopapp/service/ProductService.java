@@ -11,9 +11,7 @@ public interface ProductService {
     ProductDto updateById(ProductDto productDto, long id);
     void deleteProductById(Long id);
     List<ProductDto> getAll();
-
-
-
+    
 
 
 //    List<Product> getAll();
@@ -23,9 +21,6 @@ public interface ProductService {
 //    void add(Product product);
 //    void deleteById(long id);
 //
-//    void deleteByName(String name);
-//
-//    //List<Product> getAllByCategoryId(long categoryId);
 //    long getCount();
 //
 //    double getTotalPrice();
