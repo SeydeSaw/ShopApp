@@ -78,14 +78,14 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     private void updateOrderDetailNewData(OrderDetailDto orderDetailDto, OrderDetail orderDetail) {
         if (orderDetailDto.getCartId() != null && !orderDetailDto.getCartId().equals(orderDetail.getCart().getId())) {
-            Cart cart = cartRepository.findById(orderDetailDto.getCartId()).orElseThrow(() -> new RuntimeException("Cart not find"));
+            Cart cart = cartRepository.findById(orderDetailDto.getCartId()).orElseThrow(() -> new RuntimeException("Order Detail  not find"));
             orderDetail.setCart(cart);
         }
         if (orderDetailDto.getProductId() != null && !orderDetailDto.getProductId().equals(orderDetail.getProduct().getId())) {
-            Product product = productRepository.findById(orderDetailDto.getProductId()).orElseThrow(() -> new RuntimeException("Product not find"));
+            Product product = productRepository.findById(orderDetailDto.getProductId()).orElseThrow(() -> new RuntimeException("Order Detail not find"));
             orderDetail.setProduct(product);
         }
-        if (orderDetailDto.getQuantity() >=1) {
+        if (orderDetailDto.getQuantity() != null) {
             orderDetail.setQuantity(orderDetailDto.getQuantity());
         };
     }

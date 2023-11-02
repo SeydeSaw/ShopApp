@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 public class ProductDto {
+    private Long id;
     private Long sellerId;
     private String name;
     private Double price;

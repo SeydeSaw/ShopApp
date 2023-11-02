@@ -22,34 +22,15 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User createNewClient(UserDto userDto) {
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
+    public UserDto createUser(UserDto userDto) {
+        User user = userMapper.mapToEntity(userDto);
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
-        user.setRole(Role.CLIENT);
+        user.setRole(Role.USER);
         userRepository.save(user);
-        return user;
+        return userMapper.mapToDto(user);
     }
-    @Transactional
-    @Override
-    public User createNewSeller(UserDto userDto) {
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
-        user.setRole(Role.SELLER);
-        userRepository.save(user);
-        return user;
-    }
+
 
     @Transactional
     @Override

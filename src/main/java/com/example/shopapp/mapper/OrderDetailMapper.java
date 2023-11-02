@@ -15,8 +15,10 @@ import java.util.List;
 public interface OrderDetailMapper {
     @Mapping(source = "cart.id", target = "cartId")
     @Mapping(source = "product.id", target = "productId")
+    @Mapping(source = "product.name", target = "productName")
     OrderDetailDto mapToDto(OrderDetail orderDetail);
 
+    @Named("mapToListOrderDetailDto")
     List<OrderDetailDto> mapToListOrderDetailDto(List<OrderDetail> orderDetailList);
 
 }

@@ -16,15 +16,11 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/create-client")
-    public User createClient(@RequestBody UserDto userDto) {
-        return userService.createNewClient(userDto);
+    @PostMapping("/create")
+    public UserDto createUser(@RequestBody UserDto userDto) {
+        return userService.createUser(userDto);
     }
 
-    @PostMapping("/create-seller")
-    public User createSeller(@RequestBody UserDto userDto) {
-        return userService.createNewSeller(userDto);
-    }
 
     @GetMapping("/{id}")
     public UserDto getById(@PathVariable long id) {

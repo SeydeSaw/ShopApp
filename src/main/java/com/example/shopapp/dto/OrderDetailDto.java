@@ -6,5 +6,6 @@ import lombok.Data;
 public class OrderDetailDto {
     private Long cartId;
     private Long productId;
-    private int quantity;
+    private String productName;
+    private Integer quantity;
 }

@@ -35,7 +35,7 @@ public class Cart {
 
     @JsonIgnore
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<OrderDetail> orderDetails = new HashSet<>();
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
