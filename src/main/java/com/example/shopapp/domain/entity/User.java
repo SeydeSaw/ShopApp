@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -46,10 +44,10 @@ public class User {
     private LocalDateTime updatedAt;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "client", fetch = FetchType.LAZY) // удаляя пользователя удаляется и корзина
-    private Set<Cart> carts = new HashSet<>();
+    private List<Cart> carts = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "seller", fetch = FetchType.LAZY) // удаляя пользователя удаляется и корзина
-    private Set<Product> products = new HashSet<>();
+    private List<Product> products = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

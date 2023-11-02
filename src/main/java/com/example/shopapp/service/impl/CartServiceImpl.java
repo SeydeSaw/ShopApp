@@ -16,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -74,7 +76,6 @@ public class CartServiceImpl implements CartService {
         Cart cart;
         if (activeCart.isPresent()) {
             cart = activeCart.get();
-            createNewOrderDetail(orderDetailDto, activeCart.get());
         } else {
             cart = new Cart();
             User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not find"));
@@ -83,8 +84,8 @@ public class CartServiceImpl implements CartService {
             cart.setCreatedAt(LocalDateTime.now());
             cart.setUpdatedAt(LocalDateTime.now());
             cartRepository.save(cart);
-            createNewOrderDetail(orderDetailDto, cart);
         }
+        createNewOrderDetail(orderDetailDto, cart);
         return cartMapper.mapToDto(cart);
     }
 
@@ -118,6 +119,8 @@ public class CartServiceImpl implements CartService {
         orderDetail.setProduct(product);
         orderDetail.setQuantity(orderDetailDto.getQuantity());
         orderDetailRepository.save(orderDetail);
+
+        cart.getOrderDetails().add(orderDetail);
     }
 
     private static CartDto convertToCartDto(Cart cart) {
@@ -132,5 +135,4 @@ public class CartServiceImpl implements CartService {
             cart.setClient(client);
         }
     }
-
 }

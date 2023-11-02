@@ -1,7 +1,6 @@
 package com.example.shopapp.domain.entity;
 
 import com.example.shopapp.domain.enums.CartStatus;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,12 +19,10 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private User client;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Order order;
 
@@ -33,7 +30,6 @@ public class Cart {
     @Enumerated(EnumType.STRING)
     private CartStatus status;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
