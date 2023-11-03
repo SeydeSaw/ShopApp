@@ -21,5 +21,4 @@ public interface OrderMapper {
     default BigDecimal doubleToBigDecimal(Double value) {
         return BigDecimal.valueOf(value);
     };
-
 }

@@ -9,7 +9,6 @@ public class MySqlConnector {
 
         try {
             Class.forName(DRIVER_PATH);
-            // jdbc:mysql://localhost:3306/shop?user=root&password=Ss55539927
             String dbUrl = String.format("%s%s?user=%s&password=%s",
                     DB_ADDRESS, DB_NAME, USER_NAME, DB_PASSWORD);
             return DriverManager.getConnection(dbUrl);

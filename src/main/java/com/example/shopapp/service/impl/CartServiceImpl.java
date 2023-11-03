@@ -4,8 +4,6 @@ import com.example.shopapp.domain.entity.*;
 import com.example.shopapp.domain.enums.CartStatus;
 import com.example.shopapp.dto.CartDto;
 import com.example.shopapp.dto.OrderDetailDto;
-import com.example.shopapp.dto.ProductDto;
-import com.example.shopapp.dto.UserDto;
 import com.example.shopapp.mapper.CartMapper;
 import com.example.shopapp.repository.*;
 import com.example.shopapp.service.CartService;
@@ -16,10 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 @RequiredArgsConstructor
 @Service
 public class CartServiceImpl implements CartService {
@@ -30,12 +25,12 @@ public class CartServiceImpl implements CartService {
     private final ProductRepository productRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final OrderRepository orderRepository;
-
     @Transactional
     @Override
     public Cart createNewCart(CartDto cartDto) {
         Cart cart = new Cart();
-        User client = userRepository.findById(cartDto.getClientId()).orElseThrow(() -> new RuntimeException("Client not find"));
+        User client = userRepository.findById(cartDto.getClientId())
+                .orElseThrow(() -> new RuntimeException("Client not find"));
         cart.setClient(client);
         cart.setCreatedAt(LocalDateTime.now());
         cart.setUpdatedAt(LocalDateTime.now());
@@ -48,8 +43,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public CartDto getById(Long id) {
         Cart cart = cartRepository.findById(id).orElseThrow(() -> new RuntimeException("Cart not find"));
-        CartDto newMapperCartDto = cartMapper.mapToDto(cart);
-        return newMapperCartDto;
+        return cartMapper.mapToDto(cart);
     }
 
     @Transactional
@@ -59,8 +53,7 @@ public class CartServiceImpl implements CartService {
         updateCartNewData(cartDto, cart);
         cart.setUpdatedAt(LocalDateTime.now());
         cartRepository.save(cart);
-        CartDto newCartDto = convertToCartDto(cart);
-        return newCartDto;
+        return convertToCartDto(cart);
     }
 
     @Transactional
@@ -92,7 +85,8 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public CartDto completeCartOfUser(Long userId) {
-        Cart cart = cartRepository.getCartByUserId(userId).orElseThrow(() -> new EntityNotFoundException("Active cart of user not find"));
+        Cart cart = cartRepository.getCartByUserId(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Active cart of user not find"));
         cart.setStatus(CartStatus.COMPLETED);
         cart.setUpdatedAt(LocalDateTime.now());
         createNewOrder(cart);
@@ -107,13 +101,14 @@ public class CartServiceImpl implements CartService {
                         .multiply(BigDecimal.valueOf(orderDetail.getQuantity())))
                 .reduce(BigDecimal.ZERO,BigDecimal::add);
         order.setTotalPrice(totalPrice);
-        order.setCreatedAt(LocalDateTime.now());// добавить поля везде в orderDetail
-        order.setUpdatedAt(LocalDateTime.now());//убрать из всех папок Order
+        order.setCreatedAt(LocalDateTime.now());
+        order.setUpdatedAt(LocalDateTime.now());
         orderRepository.save(order);
     }
 
     private void createNewOrderDetail(OrderDetailDto orderDetailDto, Cart cart) {
-        Product product = productRepository.findById(orderDetailDto.getProductId()).orElseThrow(() -> new EntityNotFoundException("Product not find"));
+        Product product = productRepository.findById(orderDetailDto.getProductId())
+                .orElseThrow(() -> new EntityNotFoundException("Product not find"));
         OrderDetail orderDetail = new OrderDetail();
         orderDetail.setCart(cart);
         orderDetail.setProduct(product);
@@ -131,7 +126,8 @@ public class CartServiceImpl implements CartService {
 
     private void updateCartNewData(CartDto cartDto, Cart cart) {
         if (cartDto.getClientId() != null && !cartDto.getClientId().equals(cart.getClient().getId())) {
-            User client = userRepository.findById(cartDto.getClientId()).orElseThrow(() -> new RuntimeException("Client not find"));
+            User client = userRepository.findById(cartDto.getClientId())
+                    .orElseThrow(() -> new RuntimeException("Client not find"));
             cart.setClient(client);
         }
     }

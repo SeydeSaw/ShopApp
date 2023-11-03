@@ -5,10 +5,7 @@ import com.example.shopapp.dto.OrderDto;
 
 public interface OrderService {
     Order createNewOrder (OrderDto orderDto);
-
-    OrderDto getById(long id);
-
-    OrderDto updateById(OrderDto orderDto, long id);
-
-    void deleteOrderById(long id);
+    OrderDto getById(Long id);
+    OrderDto updateById(OrderDto orderDto, Long id);
+    void deleteOrderById(Long id);
 }

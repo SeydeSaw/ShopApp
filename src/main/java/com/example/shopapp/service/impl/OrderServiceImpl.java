@@ -2,7 +2,6 @@ package com.example.shopapp.service.impl;
 
 import com.example.shopapp.domain.entity.Cart;
 import com.example.shopapp.domain.entity.Order;
-import com.example.shopapp.domain.entity.User;
 import com.example.shopapp.dto.OrderDto;
 import com.example.shopapp.mapper.OrderMapper;
 import com.example.shopapp.repository.CartRepository;
@@ -38,26 +37,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public OrderDto getById(long id) {
+    public OrderDto getById(Long id) {
         Order order = orderRepository.findById(id).orElseThrow(()-> new RuntimeException("Order not find"));
-        OrderDto newMapperOrderDto = orderMapper.mapToDto(order);
-        return newMapperOrderDto;
+        return orderMapper.mapToDto(order);
     }
 
     @Transactional
     @Override
-    public OrderDto updateById(OrderDto orderDto, long id) {
+    public OrderDto updateById(OrderDto orderDto, Long id) {
         Order order = orderRepository.findById(id).orElseThrow(()-> new RuntimeException("Order not find"));
         updateOrderNewData(orderDto, order);
         order.setUpdatedAt(LocalDateTime.now());
         orderRepository.save(order);
-        OrderDto newOrderDto = convertToOrderDto(order);
-        return newOrderDto;
+        return convertToOrderDto(order);
     }
 
     @Transactional
     @Override
-    public void deleteOrderById(long id) {
+    public void deleteOrderById(Long id) {
         orderRepository.deleteById(id);
     }
 
@@ -70,12 +67,12 @@ public class OrderServiceImpl implements OrderService {
 
     private void updateOrderNewData(OrderDto orderDto, Order order) {
         if (orderDto.getCartId() != null && !orderDto.getCartId().equals(order.getCart().getId())) {
-            Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow(() -> new RuntimeException("Cart not find"));
+            Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow(() ->
+                    new RuntimeException("Cart not find"));
             order.setCart(cart);
         }
         if (orderDto.getTotalPrice() != null) {
             order.setTotalPrice(orderDto.getTotalPrice());
         };
-
     }
 }

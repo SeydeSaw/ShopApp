@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -28,21 +29,24 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetail createNewOrderDetail(OrderDetailDto orderDetailDto) {
         OrderDetail orderDetail = new OrderDetail();
-        Cart cart = cartRepository.findById(orderDetailDto.getCartId()).orElseThrow(()->new RuntimeException("Cart not find"));
-        Product product = productRepository.findById(orderDetailDto.getProductId()).orElseThrow(()->new RuntimeException("Product not find"));
+        Cart cart = cartRepository.findById(orderDetailDto.getCartId())
+                .orElseThrow(()->new RuntimeException("Cart not find"));
+        Product product = productRepository.findById(orderDetailDto.getProductId())
+                .orElseThrow(()->new RuntimeException("Product not find"));
         orderDetail.setCart(cart);
         orderDetail.setProduct(product);
         orderDetail.setQuantity(orderDetailDto.getQuantity());
+        orderDetail.setCreatedAt(LocalDateTime.now());
         orderDetailRepository.save(orderDetail);
         return orderDetail;
     }
 
     @Transactional
     @Override
-    public OrderDetailDto getById(long id) {
-        OrderDetail orderDetail = orderDetailRepository.findById(id).orElseThrow(()-> new RuntimeException("Order detail not find"));
-        OrderDetailDto newMapperOrderDetailDto = orderDetailMapper.mapToDto(orderDetail);
-        return newMapperOrderDetailDto;
+    public OrderDetailDto getById(Long id) {
+        OrderDetail orderDetail = orderDetailRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Order detail not find"));
+        return orderDetailMapper.mapToDto(orderDetail);
     }
 
     @Transactional
@@ -54,17 +58,17 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Transactional
     @Override
-    public OrderDetailDto updateById(OrderDetailDto orderDetailDto, long id) {
-        OrderDetail orderDetail = orderDetailRepository.findById(id).orElseThrow(()-> new RuntimeException("Order detail not find"));
+    public OrderDetailDto updateById(OrderDetailDto orderDetailDto, Long id) {
+        OrderDetail orderDetail = orderDetailRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Order detail not find"));
         updateOrderDetailNewData(orderDetailDto, orderDetail);
         orderDetailRepository.save(orderDetail);
-        OrderDetailDto newOrderDetailDto = convertToOrderDetailDto(orderDetail);
-        return newOrderDetailDto;
+        return convertToOrderDetailDto(orderDetail);
     }
 
     @Transactional
     @Override
-    public void deleteOrderDetailById(long id) {
+    public void deleteOrderDetailById(Long id) {
         orderDetailRepository.deleteById(id);
     }
 
@@ -78,11 +82,13 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     private void updateOrderDetailNewData(OrderDetailDto orderDetailDto, OrderDetail orderDetail) {
         if (orderDetailDto.getCartId() != null && !orderDetailDto.getCartId().equals(orderDetail.getCart().getId())) {
-            Cart cart = cartRepository.findById(orderDetailDto.getCartId()).orElseThrow(() -> new RuntimeException("Order Detail  not find"));
+            Cart cart = cartRepository.findById(orderDetailDto.getCartId())
+                    .orElseThrow(() -> new RuntimeException("Cart Detail  not find"));
             orderDetail.setCart(cart);
         }
         if (orderDetailDto.getProductId() != null && !orderDetailDto.getProductId().equals(orderDetail.getProduct().getId())) {
-            Product product = productRepository.findById(orderDetailDto.getProductId()).orElseThrow(() -> new RuntimeException("Order Detail not find"));
+            Product product = productRepository.findById(orderDetailDto.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product Detail not find"));
             orderDetail.setProduct(product);
         }
         if (orderDetailDto.getQuantity() != null) {

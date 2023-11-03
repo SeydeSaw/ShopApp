@@ -2,8 +2,6 @@ package com.example.shopapp.dto;
 
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @Data
 public class ProductDto {
     private Long id;
@@ -12,5 +10,4 @@ public class ProductDto {
     private Double price;
     private String description;
     private String sellerFullName;
-
 }

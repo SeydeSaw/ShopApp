@@ -19,7 +19,6 @@ public interface CartMapper {
     @Mapping(source = "orderDetails", target = "totalPrice", qualifiedByName = "calculateCurrentTotalPrice")
     CartDto mapToDto(Cart cart);
 
-
     @Named("getFullName")
     default String getFullName(User user) {
         return user.getFirstName() + " " + user.getLastName();

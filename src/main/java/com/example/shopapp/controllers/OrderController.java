@@ -13,24 +13,20 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService orderService;
-
     @PostMapping("/create")
     public Order createNewOrder(@RequestBody OrderDto orderDto) {
         return orderService.createNewOrder(orderDto);
     }
-
     @GetMapping("/{id}")
-    public OrderDto getById(@PathVariable long id) {
+    public OrderDto getById(@PathVariable Long id) {
         return orderService.getById(id);
     }
-
     @PutMapping("/update/{id}")
-    public OrderDto updateById(@RequestBody OrderDto orderDto, @PathVariable long id) {
+    public OrderDto updateById(@RequestBody OrderDto orderDto, @PathVariable Long id) {
         return orderService.updateById(orderDto, id);
     }
-
     @DeleteMapping("/{id}")
-    public void deleteOrderById(@PathVariable long id) {
+    public void deleteOrderById(@PathVariable Long id) {
         orderService.deleteOrderById(id);
     }
 }

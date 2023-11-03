@@ -31,13 +31,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.mapToDto(user);
     }
 
-
     @Transactional
     @Override
-    public UserDto getById(long id) {
+    public UserDto getById(Long id) {
         User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not find"));
-        UserDto newMapperUserDto = userMapper.mapToDto(user);
-        return newMapperUserDto;
+        return userMapper.mapToDto(user);
     }
 
     @Transactional
@@ -49,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public UserDto updateById(UserDto userDto, long id) {
+    public UserDto updateById(UserDto userDto, Long id) {
         User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not find"));
         updateUserNewData(userDto, user);
         user.setUpdatedAt(LocalDateTime.now());

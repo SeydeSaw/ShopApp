@@ -3,6 +3,7 @@ package com.example.shopapp.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
@@ -27,6 +28,9 @@ public class OrderDetail {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,6 +49,7 @@ public class OrderDetail {
         return "OrderDetail{" +
                 "id=" + id +
                 ", quantity=" + quantity +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

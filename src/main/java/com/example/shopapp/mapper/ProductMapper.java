@@ -16,11 +16,11 @@ public interface ProductMapper {
     @Mapping(source = "seller.id", target = "sellerId")
     ProductDto mapToDto(Product product);
 
-
     List<ProductDto> mapToListProductDto(List<Product> productList);
 
     @Mapping(source = "price", target = "price", qualifiedByName = "doubleToBigDecimal")
     Product mapToProduct(ProductDto productDto);
+
     @Named("doubleToBigDecimal")
     default BigDecimal doubleToBigDecimal(Double value) {
         return BigDecimal.valueOf(value);

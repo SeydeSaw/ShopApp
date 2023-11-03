@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS order_details(
                                             cart_id BIGINT,
                                             product_id BIGINT,
                                             quantity INT,
+                                            created_at TIMESTAMP,
                                             Foreign Key (cart_id) REFERENCES carts(id),
     Foreign Key (product_id) REFERENCES products(id)
     );

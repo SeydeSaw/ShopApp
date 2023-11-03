@@ -43,10 +43,10 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "client", fetch = FetchType.LAZY) // удаляя пользователя удаляется и корзина
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "client", fetch = FetchType.LAZY)
     private List<Cart> carts = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "seller", fetch = FetchType.LAZY) // удаляя пользователя удаляется и корзина
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "seller", fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
 
     @Override
