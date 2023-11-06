@@ -1,17 +1,17 @@
-INSERT INTO users(username,first_name,last_name,email,role,created_at,updated_at)
+INSERT INTO users(username,first_name,last_name,password,email,role,created_at,updated_at)
 VALUES
-    ('user1','Irena', 'Schmidt', 'irena.schmidt@gmail.com','ADMIN', '2023-09-01 13:17:40', '2023-09-01 13:17:40'),
-    ('user2','Anella', 'Baumann', 'anella.baumann@gmail.com','ADMIN', '2023-08-01 10:57:40', '2023-08-01 10:57:40'),
-    ('user3','Alice', 'Suss', 'alice.suss@gmail.com','USER', '2023-09-02 13:00:40', '2023-09-02 13:00:40'),
-    ('user4','Anabel', 'Gwerder', 'anabel.gwerder@gmail.com','USER', '2023-07-01 18:17:40', '2023-07-01 18:17:40'),
-    ('user5','Aline', 'Gunn', 'aline.gunn@gmail.com','USER', '2023-08-10 10:08:30', '2023-08-10 10:08:30'),
-    ('user6','Martin', 'Jelli', 'martin.jelli@gmail.com','USER', '2023-05-05 07:00:12', '2023-05-05 07:00:12'),
-    ('user7','Michael', 'Bachmann', 'michael.bachmann@gmail.com','USER', '2023-09-01 15:17:40', '2023-09-01 15:17:40'),
-    ('user8','Kristian', 'Mueller', 'kristian.mueller@gmail.com','USER', '2023-08-01 10:44:40', '2023-08-01 10:44:40'),
-    ('user9','Evelin', 'Giesler', 'evelin.giesler@gmail.com','USER', '2023-04-02 13:00:40', '2023-04-02 13:00:40'),
-    ('user10','Flavio', 'Bashnagel', 'flavio.bashnagel@gmail.com','USER', '2023-02-01 12:17:40', '2023-02-01 12:17:40'),
-    ('user11','Peter', 'Sepp', 'peter.sepp@gmail.com','USER', '2023-08-12 10:08:32', '2023-08-12 10:08:32'),
-    ('user12','Andrea', 'Beeler', 'andrea.beeler@gmail.com','USER', '2023-05-05 20:00:12', '2023-05-05 20:00:12');
+    ('user1','Irena', 'Schmidt','$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.', 'irena.schmidt@gmail.com','ADMIN', '2023-09-01 13:17:40', '2023-09-01 13:17:40'),
+    ('user2','Anella', 'Baumann','$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.', 'anella.baumann@gmail.com','ADMIN', '2023-08-01 10:57:40', '2023-08-01 10:57:40'),
+    ('user3','Alice', 'Suss', '$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.','alice.suss@gmail.com','USER', '2023-09-02 13:00:40', '2023-09-02 13:00:40'),
+    ('user4','Anabel', 'Gwerder', '$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.','anabel.gwerder@gmail.com','USER', '2023-07-01 18:17:40', '2023-07-01 18:17:40'),
+    ('user5','Aline', 'Gunn', '$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.','aline.gunn@gmail.com','USER', '2023-08-10 10:08:30', '2023-08-10 10:08:30'),
+    ('user6','Martin', 'Jelli','$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.', 'martin.jelli@gmail.com','USER', '2023-05-05 07:00:12', '2023-05-05 07:00:12'),
+    ('user7','Michael', 'Bachmann','$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.', 'michael.bachmann@gmail.com','USER', '2023-09-01 15:17:40', '2023-09-01 15:17:40'),
+    ('user8','Kristian', 'Mueller','$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.', 'kristian.mueller@gmail.com','USER', '2023-08-01 10:44:40', '2023-08-01 10:44:40'),
+    ('user9','Evelin', 'Giesler','$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.', 'evelin.giesler@gmail.com','USER', '2023-04-02 13:00:40', '2023-04-02 13:00:40'),
+    ('user10','Flavio', 'Bashnagel','$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.', 'flavio.bashnagel@gmail.com','USER', '2023-02-01 12:17:40', '2023-02-01 12:17:40'),
+    ('user11','Peter', 'Sepp','$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.', 'peter.sepp@gmail.com','USER', '2023-08-12 10:08:32', '2023-08-12 10:08:32'),
+    ('user12','Andrea', 'Beeler','$2a$04$vT/wEEy0MZ3u0XBzzmSk5.COGoQdejXE9jpKwveT57I1OoTuAORV.', 'andrea.beeler@gmail.com','USER', '2023-05-05 20:00:12', '2023-05-05 20:00:12');
 
 INSERT INTO products(seller_id,name,price,description,created_at,updated_at)
 VALUES

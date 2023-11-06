@@ -3,6 +3,7 @@ package com.example.shopapp.controllers;
 import com.example.shopapp.dto.ProductDto;
 import com.example.shopapp.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,8 @@ public class ProductController {
     public List<ProductDto> getAll() {
         return productService.getAll();
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteProductById(@PathVariable Long id) {
         productService.deleteProductById(id);

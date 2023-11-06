@@ -7,11 +7,13 @@ import com.example.shopapp.mapper.UserMapper;
 import com.example.shopapp.repository.UserRepository;
 import com.example.shopapp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -59,6 +62,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public User findByUsernameAndPassword(String username, String password) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (passwordEncoder.matches(password,user.getPassword())) {
+                return user;
+            }
+        }
+        throw new RuntimeException("Username or password is not correct");
     }
 
     private UserDto convertToUserDto(User user) {
