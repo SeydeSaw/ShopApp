@@ -26,7 +26,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(username)
                 .expiration(date)
-                .signWith(getSignInKey()) // + ключ-токен + модель шифрования
+                .signWith(getSignInKey())
                 .compact();
     }
     private Key getSignInKey() {

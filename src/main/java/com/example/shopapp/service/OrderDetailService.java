@@ -6,7 +6,7 @@ import com.example.shopapp.dto.OrderDetailDto;
 import java.util.List;
 
 public interface OrderDetailService {
-    OrderDetail createNewOrderDetail(OrderDetailDto orderDetailDto);
+    OrderDetailDto createNewOrderDetail(OrderDetailDto orderDetailDto);
     OrderDetailDto getById(Long id);
     List<OrderDetailDto> getAll();
     OrderDetailDto updateById(OrderDetailDto orderDetailDto, Long id);

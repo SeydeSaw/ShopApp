@@ -9,6 +9,7 @@ import com.example.shopapp.repository.CartRepository;
 import com.example.shopapp.repository.OrderDetailRepository;
 import com.example.shopapp.repository.ProductRepository;
 import com.example.shopapp.service.OrderDetailService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,25 +28,24 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Transactional
     @Override
-    public OrderDetail createNewOrderDetail(OrderDetailDto orderDetailDto) {
-        OrderDetail orderDetail = new OrderDetail();
+    public OrderDetailDto createNewOrderDetail(OrderDetailDto orderDetailDto) {
+        OrderDetail orderDetail = orderDetailMapper.mapToEntity(orderDetailDto);
         Cart cart = cartRepository.findById(orderDetailDto.getCartId())
-                .orElseThrow(()->new RuntimeException("Cart not find"));
+                .orElseThrow(()-> new EntityNotFoundException("Cart not find"));
         Product product = productRepository.findById(orderDetailDto.getProductId())
-                .orElseThrow(()->new RuntimeException("Product not find"));
+                .orElseThrow(()-> new EntityNotFoundException("Product not find"));
         orderDetail.setCart(cart);
         orderDetail.setProduct(product);
-        orderDetail.setQuantity(orderDetailDto.getQuantity());
         orderDetail.setCreatedAt(LocalDateTime.now());
         orderDetailRepository.save(orderDetail);
-        return orderDetail;
+        return orderDetailMapper.mapToDto(orderDetail);
     }
 
     @Transactional
     @Override
     public OrderDetailDto getById(Long id) {
         OrderDetail orderDetail = orderDetailRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Order detail not find"));
+                .orElseThrow(()-> new EntityNotFoundException("Order detail not find"));
         return orderDetailMapper.mapToDto(orderDetail);
     }
 
@@ -60,7 +60,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetailDto updateById(OrderDetailDto orderDetailDto, Long id) {
         OrderDetail orderDetail = orderDetailRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Order detail not find"));
+                .orElseThrow(()-> new EntityNotFoundException("Order detail not find"));
         updateOrderDetailNewData(orderDetailDto, orderDetail);
         orderDetailRepository.save(orderDetail);
         return convertToOrderDetailDto(orderDetail);
@@ -83,12 +83,12 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     private void updateOrderDetailNewData(OrderDetailDto orderDetailDto, OrderDetail orderDetail) {
         if (orderDetailDto.getCartId() != null && !orderDetailDto.getCartId().equals(orderDetail.getCart().getId())) {
             Cart cart = cartRepository.findById(orderDetailDto.getCartId())
-                    .orElseThrow(() -> new RuntimeException("Cart Detail  not find"));
+                    .orElseThrow(() -> new EntityNotFoundException("Cart Detail  not find"));
             orderDetail.setCart(cart);
         }
         if (orderDetailDto.getProductId() != null && !orderDetailDto.getProductId().equals(orderDetail.getProduct().getId())) {
             Product product = productRepository.findById(orderDetailDto.getProductId())
-                    .orElseThrow(() -> new RuntimeException("Product Detail not find"));
+                    .orElseThrow(() -> new EntityNotFoundException("Product Detail not find"));
             orderDetail.setProduct(product);
         }
         if (orderDetailDto.getQuantity() != null) {

@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    url: jdbc:h2:file:./testdb;AUTO_SERVER=TRUE
+    driverClassName: org.h2.Driver
+    username: sa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: false
+  sql:
+    init:
+      mode: never
+
+jwt:
+  secret: f315f6dbec1e5b50f51e29551d83fab20d34c62e9b65e0bfac654dfb386c5f02

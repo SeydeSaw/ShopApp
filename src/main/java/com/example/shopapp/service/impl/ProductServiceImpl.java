@@ -7,6 +7,7 @@ import com.example.shopapp.mapper.ProductMapper;
 import com.example.shopapp.repository.ProductRepository;
 import com.example.shopapp.repository.UserRepository;
 import com.example.shopapp.service.ProductService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDto createNewProduct(ProductDto productDto) {
         Product product = productMapper.mapToProduct(productDto);
         User seller = userRepository.findById(productDto.getSellerId())
-                .orElseThrow(() -> new RuntimeException("Seller not find"));
+                .orElseThrow(() -> new EntityNotFoundException("Seller not find"));
         product.setSeller(seller);
         product.setCreatedAt(LocalDateTime.now());
         product.setUpdatedAt(LocalDateTime.now());
@@ -39,14 +40,14 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public ProductDto getById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not find"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not find"));
         return productMapper.mapToDto(product);
     }
 
     @Transactional
     @Override
     public ProductDto updateById(ProductDto productDto, Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not find"));
+        Product product = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not find"));
         updateProductNewData(productDto, product);
         product.setUpdatedAt(LocalDateTime.now());
         productRepository.save(product);
@@ -78,7 +79,7 @@ public class ProductServiceImpl implements ProductService {
     private void updateProductNewData(ProductDto productDto, Product product) {
         if (productDto.getSellerId() != null && !productDto.getSellerId().equals(product.getSeller().getId())) {
             User seller = userRepository.findById(productDto.getSellerId())
-                    .orElseThrow(() -> new RuntimeException("Seller not find"));
+                    .orElseThrow(() -> new EntityNotFoundException("Seller not find"));
             product.setSeller(seller);
         }
         if (productDto.getName() != null) {

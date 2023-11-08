@@ -1,10 +1,10 @@
 package com.example.shopapp.controllers;
 
-import com.example.shopapp.domain.entity.Cart;
 import com.example.shopapp.dto.CartDto;
 import com.example.shopapp.dto.OrderDetailDto;
 import com.example.shopapp.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
 
     private final CartService cartService;
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
-    public Cart createNewCart(@RequestBody CartDto cartDto) {
-        return cartService.createNewCart(cartDto);
+    public CartDto createNewCartOnCurrentUser() {
+        return cartService.createNewCartOnCurrenUser();
     }
     @GetMapping("/{id}")
     public CartDto getById(@PathVariable Long id) {
@@ -29,12 +30,12 @@ public class CartController {
     public void deleteCartById(@PathVariable Long id) {
         cartService.deleteCartById(id);
     }
-    @PostMapping("/add-product/{userId}")
-    public CartDto addProductToCart(@RequestBody OrderDetailDto orderDetailDto, @PathVariable(name = "userId") Long userId) {
-        return cartService.addProductToCart(orderDetailDto, userId);
+    @PostMapping("/add-product")
+    public CartDto addProductToCart(@RequestBody OrderDetailDto orderDetailDto) {
+        return cartService.addProductToCart(orderDetailDto);
     }
-    @PutMapping("/complete-cart/{userId}")
-    public CartDto completeCartOfUser(@PathVariable(name = "userId") Long userId) {
-        return cartService.completeCartOfUser(userId);
+    @PutMapping("/complete-cart")
+    public CartDto completeCartOfUser() {
+        return cartService.completeCartOfUser();
     }
 }

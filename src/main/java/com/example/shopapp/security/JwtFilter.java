@@ -21,7 +21,8 @@ public class JwtFilter extends GenericFilterBean {
     private final JwtService jwtService;
     private final CustomUserDetailsService customUserDetailsService;
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+            throws IOException, ServletException {
         String bearerToken = ((HttpServletRequest) servletRequest).getHeader(HttpHeaders.AUTHORIZATION);
         String token = null;
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
@@ -30,7 +31,8 @@ public class JwtFilter extends GenericFilterBean {
         if (token != null && jwtService.validateToken(token)) {
             String username = jwtService.getUserNameFromToken(token);
             CustomUserDetails customUserDetails = customUserDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(customUserDetails,null, customUserDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken
+                    (customUserDetails,null, customUserDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
         filterChain.doFilter(servletRequest,servletResponse);

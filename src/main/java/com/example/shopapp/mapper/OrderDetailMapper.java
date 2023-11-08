@@ -17,4 +17,6 @@ public interface OrderDetailMapper {
 
     @Named("mapToListOrderDetailDto")
     List<OrderDetailDto> mapToListOrderDetailDto(List<OrderDetail> orderDetailList);
+
+    OrderDetail mapToEntity(OrderDetailDto orderDetailDto);
 }

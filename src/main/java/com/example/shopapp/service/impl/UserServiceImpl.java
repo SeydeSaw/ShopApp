@@ -6,6 +6,7 @@ import com.example.shopapp.dto.UserDto;
 import com.example.shopapp.mapper.UserMapper;
 import com.example.shopapp.repository.UserRepository;
 import com.example.shopapp.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserDto getById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not find"));
+        User user = userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("User not find"));
         return userMapper.mapToDto(user);
     }
 
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserDto updateById(UserDto userDto, Long id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not find"));
+        User user = userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("User not find"));
         updateUserNewData(userDto, user);
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         }
-        throw new RuntimeException("Username or password is not correct");
+        throw new EntityNotFoundException("Username or password is not correct");
     }
 
     private UserDto convertToUserDto(User user) {
