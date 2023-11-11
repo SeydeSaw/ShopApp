@@ -4,6 +4,7 @@ import com.example.shopapp.domain.entity.OrderDetail;
 import com.example.shopapp.dto.OrderDetailDto;
 import com.example.shopapp.service.OrderDetailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class OrderDetailController {
     public OrderDetailDto getById(@PathVariable Long id) {
         return orderDetailService.getById(id);
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/all")
     public List<OrderDetailDto> getAll() {
         return orderDetailService.getAll();

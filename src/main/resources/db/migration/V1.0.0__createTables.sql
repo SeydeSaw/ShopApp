@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
                                      id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                                     username VARCHAR(45),
+                                     username VARCHAR(45) UNIQUE,
     password VARCHAR(64),
     first_name VARCHAR(64),
     last_name VARCHAR(64),
