@@ -1,30 +1,37 @@
-package com.example.shopapp.domain.entity;
+package com.example.shopapp.entity;
 
+import com.example.shopapp.entity.enums.CartStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "orders")
-public class Order {
+@Table(name = "carts")
+public class Cart {
 
     @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id", referencedColumnName = "id")
-    private Cart cart;
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private User client;
 
-    @Column(name = "total_price")
-    private BigDecimal totalPrice;
+    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Order order;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private CartStatus status;
+
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -32,13 +39,12 @@ public class Order {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return id == order.id && Objects.equals(createdAt, order.createdAt);
+        Cart cart = (Cart) o;
+        return id == cart.id && Objects.equals(createdAt, cart.createdAt);
     }
 
     @Override
@@ -48,9 +54,9 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "Cart{" +
                 "id=" + id +
-                ", totalPrice=" + totalPrice +
+                ", status=" + status +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

@@ -1,9 +1,10 @@
 package com.example.shopapp.service.impl;
 
-import com.example.shopapp.domain.entity.User;
-import com.example.shopapp.domain.enums.Role;
+import com.example.shopapp.entity.User;
+import com.example.shopapp.entity.enums.Role;
 import com.example.shopapp.dto.UserDto;
 import com.example.shopapp.mapper.UserMapper;
+import com.example.shopapp.provider.UserProvider;
 import com.example.shopapp.repository.UserRepository;
 import com.example.shopapp.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserProvider userProvider;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -59,11 +61,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return convertToUserDto(user);
     }
-
     @Transactional
     @Override
-    public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
+    public void deleteCurrentUser() {
+        userRepository.delete(userProvider.getCurrentUser());
     }
 
     @Transactional
@@ -77,6 +78,13 @@ public class UserServiceImpl implements UserService {
             }
         }
         throw new EntityNotFoundException("Username or password is not correct");
+    }
+
+    @Transactional
+    @Override
+    public UserDto getCurrentUser() {
+        User user = userProvider.getCurrentUser();
+        return userMapper.mapToDto(user);
     }
 
     private UserDto convertToUserDto(User user) {

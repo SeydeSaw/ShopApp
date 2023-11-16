@@ -1,6 +1,6 @@
 package com.example.shopapp.mapper;
 
-import com.example.shopapp.domain.entity.Order;
+import com.example.shopapp.entity.Order;
 import com.example.shopapp.dto.OrderDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

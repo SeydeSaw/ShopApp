@@ -1,8 +1,8 @@
 package com.example.shopapp.service.impl;
 
-import com.example.shopapp.domain.entity.Cart;
-import com.example.shopapp.domain.entity.OrderDetail;
-import com.example.shopapp.domain.entity.Product;
+import com.example.shopapp.entity.Cart;
+import com.example.shopapp.entity.OrderDetail;
+import com.example.shopapp.entity.Product;
 import com.example.shopapp.dto.OrderDetailDto;
 import com.example.shopapp.mapper.OrderDetailMapper;
 import com.example.shopapp.repository.CartRepository;
@@ -31,9 +31,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     public OrderDetailDto createNewOrderDetail(OrderDetailDto orderDetailDto) {
         OrderDetail orderDetail = orderDetailMapper.mapToEntity(orderDetailDto);
         Cart cart = cartRepository.findById(orderDetailDto.getCartId())
-                .orElseThrow(()-> new EntityNotFoundException("Cart not find"));
+                .orElseThrow(() -> new EntityNotFoundException("Cart not find"));
         Product product = productRepository.findById(orderDetailDto.getProductId())
-                .orElseThrow(()-> new EntityNotFoundException("Product not find"));
+                .orElseThrow(() -> new EntityNotFoundException("Product not find"));
         orderDetail.setCart(cart);
         orderDetail.setProduct(product);
         orderDetail.setCreatedAt(LocalDateTime.now());
@@ -45,22 +45,15 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     @Override
     public OrderDetailDto getById(Long id) {
         OrderDetail orderDetail = orderDetailRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Order detail not find"));
+                .orElseThrow(() -> new EntityNotFoundException("Order detail not find"));
         return orderDetailMapper.mapToDto(orderDetail);
-    }
-
-    @Transactional
-    @Override
-    public List<OrderDetailDto> getAll() {
-        List<OrderDetail> orderDetailList = orderDetailRepository.findAll();
-        return orderDetailMapper.mapToListOrderDetailDto(orderDetailList);
     }
 
     @Transactional
     @Override
     public OrderDetailDto updateById(OrderDetailDto orderDetailDto, Long id) {
         OrderDetail orderDetail = orderDetailRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Order detail not find"));
+                .orElseThrow(() -> new EntityNotFoundException("Order detail not find"));
         updateOrderDetailNewData(orderDetailDto, orderDetail);
         orderDetailRepository.save(orderDetail);
         return convertToOrderDetailDto(orderDetail);
@@ -93,6 +86,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         }
         if (orderDetailDto.getQuantity() != null) {
             orderDetail.setQuantity(orderDetailDto.getQuantity());
-        };
+        }
+        ;
     }
 }

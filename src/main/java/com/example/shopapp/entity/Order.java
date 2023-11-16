@@ -1,8 +1,9 @@
-package com.example.shopapp.domain.entity;
+package com.example.shopapp.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -10,46 +11,48 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "order_details")
-public class OrderDetail {
+@Table(name = "orders")
+public class Order {
+
+    @Column(name = "id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product product;
-
-    @Column(name = "quantity")
-    private int quantity;
+    @Column(name = "total_price")
+    private BigDecimal totalPrice;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderDetail that = (OrderDetail) o;
-        return id == that.id;
+        Order order = (Order) o;
+        return id == order.id && Objects.equals(createdAt, order.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, createdAt);
     }
 
     @Override
     public String toString() {
-        return "OrderDetail{" +
+        return "Order{" +
                 "id=" + id +
-                ", quantity=" + quantity +
+                ", totalPrice=" + totalPrice +
                 ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
                 '}';
     }
 }

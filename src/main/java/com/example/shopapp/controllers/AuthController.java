@@ -1,6 +1,6 @@
 package com.example.shopapp.controllers;
 
-import com.example.shopapp.domain.entity.User;
+import com.example.shopapp.entity.User;
 import com.example.shopapp.dto.UserDto;
 import com.example.shopapp.security.JwtService;
 import com.example.shopapp.service.UserService;

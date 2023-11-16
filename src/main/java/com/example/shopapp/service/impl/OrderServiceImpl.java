@@ -1,12 +1,9 @@
 package com.example.shopapp.service.impl;
 
-import com.example.shopapp.domain.entity.Cart;
-import com.example.shopapp.domain.entity.Order;
-import com.example.shopapp.domain.entity.User;
-import com.example.shopapp.domain.enums.CartStatus;
+import com.example.shopapp.entity.Cart;
+import com.example.shopapp.entity.Order;
 import com.example.shopapp.dto.OrderDto;
 import com.example.shopapp.mapper.OrderMapper;
-import com.example.shopapp.provider.UserProvider;
 import com.example.shopapp.repository.CartRepository;
 import com.example.shopapp.repository.OrderRepository;
 import com.example.shopapp.service.CartService;
@@ -16,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor

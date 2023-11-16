@@ -1,6 +1,5 @@
 package com.example.shopapp.controllers;
 
-import com.example.shopapp.domain.enums.Role;
 import com.example.shopapp.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -34,32 +33,36 @@ public class UserControllerTest {
         UserDto userDto = getUserDto();
         String userDtoJson = objectMapper.writeValueAsString(userDto);
 
-        MvcResult userCreationResult = mockMvc.perform(MockMvcRequestBuilders.post("/user/create")
+        String userCreationResultJson = mockMvc.perform(MockMvcRequestBuilders.post("/user/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userDtoJson))
                 .andExpect(status().isCreated())
-                .andReturn();
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        UserDto userCreationResult = objectMapper.readValue(userCreationResultJson, UserDto.class);
 
-        String createUserJson = mockMvc.perform(MockMvcRequestBuilders.get("/user/" + userCreationResult))
+        String createUserJson = mockMvc.perform(MockMvcRequestBuilders.get("/user/" + userCreationResult.getId()))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
-
         UserDto createdUser = objectMapper.readValue(createUserJson, UserDto.class);
 
-//        userDto.setPassword(null);
-        Assertions.assertEquals(userDto, createdUser);
+        Assertions.assertEquals(userDto.getUsername(), createdUser.getUsername());
+        Assertions.assertEquals(userDto.getFirstName(), createdUser.getFirstName());
+        Assertions.assertEquals(userDto.getLastName(), createdUser.getLastName());
+        Assertions.assertEquals(userDto.getEmail(), createdUser.getEmail());
     }
 
     private UserDto getUserDto() {
         UserDto userDto = new UserDto();
-        userDto.setUsername("user2");
+        userDto.setUsername("user4");
         userDto.setFirstName("Anella");
         userDto.setLastName("Baumann");
         userDto.setEmail("anella.baumann@gmail.com");
-        userDto.setPassword("******");
+        userDto.setPassword("123Pas");
         return userDto;
     }
 }

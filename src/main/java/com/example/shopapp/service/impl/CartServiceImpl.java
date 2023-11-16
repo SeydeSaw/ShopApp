@@ -1,10 +1,12 @@
 package com.example.shopapp.service.impl;
 
-import com.example.shopapp.domain.entity.*;
-import com.example.shopapp.domain.enums.CartStatus;
+import com.example.shopapp.dto.UserCartsDto;
+import com.example.shopapp.entity.enums.CartStatus;
 import com.example.shopapp.dto.CartDto;
 import com.example.shopapp.dto.OrderDetailDto;
+import com.example.shopapp.entity.*;
 import com.example.shopapp.mapper.CartMapper;
+import com.example.shopapp.mapper.UserCartsDtoMapper;
 import com.example.shopapp.provider.UserProvider;
 import com.example.shopapp.repository.*;
 import com.example.shopapp.service.CartService;
@@ -15,7 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +30,7 @@ public class CartServiceImpl implements CartService {
     private final UserProvider userProvider;
     private final CartRepository cartRepository;
     private final CartMapper cartMapper;
+    private final UserCartsDtoMapper userCartsDtoMapper;
     private final ProductRepository productRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final OrderRepository orderRepository;
@@ -113,6 +119,17 @@ public class CartServiceImpl implements CartService {
                 .map(orderDetail -> orderDetail.getProduct().getPrice()
                         .multiply(BigDecimal.valueOf(orderDetail.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Transactional
+    @Override
+    public List<UserCartsDto> getAllCarts() {
+
+        List<Cart> allCarts = cartRepository.findAll();
+        Map<User,List<Cart>> userCartsMap = allCarts.stream()
+                .collect(Collectors.groupingBy(Cart::getClient, Collectors.toList()));
+
+        return userCartsDtoMapper.mapToListDto(userCartsMap);
     }
 
     private void createNewOrderDetail(OrderDetailDto orderDetailDto, Cart cart) {

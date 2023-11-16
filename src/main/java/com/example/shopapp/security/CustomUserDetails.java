@@ -1,6 +1,6 @@
 package com.example.shopapp.security;
 
-import com.example.shopapp.domain.entity.User;
+import com.example.shopapp.entity.User;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-@Getter
-@RequiredArgsConstructor
-public class CustomUserDetails implements UserDetails {
 
-    private final User user;
+public record CustomUserDetails(User user) implements UserDetails {
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(user.getRole().toString()));

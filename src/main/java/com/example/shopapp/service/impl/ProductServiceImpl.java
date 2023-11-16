@@ -1,7 +1,7 @@
 package com.example.shopapp.service.impl;
 
-import com.example.shopapp.domain.entity.Product;
-import com.example.shopapp.domain.entity.User;
+import com.example.shopapp.entity.Product;
+import com.example.shopapp.entity.User;
 import com.example.shopapp.dto.ProductDto;
 import com.example.shopapp.mapper.ProductMapper;
 import com.example.shopapp.repository.ProductRepository;

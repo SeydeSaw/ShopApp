@@ -1,6 +1,5 @@
 package com.example.shopapp.controllers;
 
-import com.example.shopapp.domain.entity.OrderDetail;
 import com.example.shopapp.dto.OrderDetailDto;
 import com.example.shopapp.service.OrderDetailService;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +22,6 @@ public class OrderDetailController {
     @GetMapping("/{id}")
     public OrderDetailDto getById(@PathVariable Long id) {
         return orderDetailService.getById(id);
-    }
-    @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/all")
-    public List<OrderDetailDto> getAll() {
-        return orderDetailService.getAll();
     }
     @PutMapping("/update/{id}")
     public OrderDetailDto updateById(@RequestBody OrderDetailDto orderDetailDto, @PathVariable Long id) {

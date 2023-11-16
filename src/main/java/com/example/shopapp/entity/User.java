@@ -1,6 +1,6 @@
-package com.example.shopapp.domain.entity;
+package com.example.shopapp.entity;
 
-import com.example.shopapp.domain.enums.Role;
+import com.example.shopapp.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 

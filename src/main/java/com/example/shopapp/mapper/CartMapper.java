@@ -1,8 +1,8 @@
 package com.example.shopapp.mapper;
 
-import com.example.shopapp.domain.entity.Cart;
-import com.example.shopapp.domain.entity.OrderDetail;
-import com.example.shopapp.domain.entity.User;
+import com.example.shopapp.entity.Cart;
+import com.example.shopapp.entity.OrderDetail;
+import com.example.shopapp.entity.User;
 import com.example.shopapp.dto.CartDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -31,4 +31,7 @@ public interface CartMapper {
                         .multiply(BigDecimal.valueOf(orderDetail.getQuantity())))
                 .reduce(BigDecimal.ZERO,BigDecimal::add).doubleValue();
     }
+
+    @Named("mapToListDto")
+    List<CartDto> mapToListDto(List<Cart> allCarts);
 }

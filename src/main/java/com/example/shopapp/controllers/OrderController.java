@@ -1,11 +1,8 @@
 package com.example.shopapp.controllers;
 
-import com.example.shopapp.domain.entity.Order;
-import com.example.shopapp.dto.CartDto;
 import com.example.shopapp.dto.OrderDto;
 import com.example.shopapp.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

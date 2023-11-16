@@ -5,6 +5,7 @@ import com.example.shopapp.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
     @Operation(summary = "create new user")
     public UserDto createUser(@RequestBody UserDto userDto) {
@@ -30,6 +32,10 @@ public class UserController {
         return userService.getById(id);
     }
 
+    @GetMapping("/current")
+    public UserDto getCurrentUser() {
+        return userService.getCurrentUser();
+    }
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/all")
     public List<UserDto> getAll() {
@@ -41,8 +47,9 @@ public class UserController {
         return userService.updateById(userDto, id);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUserById(@PathVariable Long id) {
-        userService.deleteUserById(id);
+    @DeleteMapping("/current")
+    public void deleteCurrentUser() {
+        userService.deleteCurrentUser();
     }
+
 }

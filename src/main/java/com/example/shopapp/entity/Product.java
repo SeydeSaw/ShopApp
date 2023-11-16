@@ -1,9 +1,9 @@
-package com.example.shopapp.domain.entity;
+package com.example.shopapp.entity;
 
-import com.example.shopapp.domain.enums.CartStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -11,8 +11,8 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "carts")
-public class Cart {
+@Table(name = "products")
+public class Product  {
 
     @Column(name = "id")
     @Id
@@ -20,18 +20,17 @@ public class Cart {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
-    private User client;
+    @JoinColumn(name = "seller_id", referencedColumnName = "id")
+    private User seller;
 
-    @OneToOne(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Order order;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private CartStatus status;
+    @Column(name = "price")
+    private BigDecimal price;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OrderDetail> orderDetails = new ArrayList<>();
+    @Column(name = "description")
+    private String description;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -39,12 +38,15 @@ public class Cart {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderDetail> orderDetails = new ArrayList<>();
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cart cart = (Cart) o;
-        return id == cart.id && Objects.equals(createdAt, cart.createdAt);
+        Product product = (Product) o;
+        return id == product.id && Objects.equals(createdAt, product.createdAt);
     }
 
     @Override
@@ -54,9 +56,11 @@ public class Cart {
 
     @Override
     public String toString() {
-        return "Cart{" +
+        return "Product{" +
                 "id=" + id +
-                ", status=" + status +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

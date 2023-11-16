@@ -1,6 +1,6 @@
 package com.example.shopapp.repository;
 
-import com.example.shopapp.domain.entity.Order;
+import com.example.shopapp.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

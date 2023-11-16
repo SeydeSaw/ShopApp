@@ -1,7 +1,6 @@
 package com.example.shopapp.controllers;
 
-import com.example.shopapp.domain.entity.Cart;
-import com.example.shopapp.domain.enums.CartStatus;
+import com.example.shopapp.entity.enums.CartStatus;
 import com.example.shopapp.dto.CartDto;
 import com.example.shopapp.dto.OrderDetailDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +16,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
