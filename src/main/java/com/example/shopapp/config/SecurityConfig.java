@@ -21,17 +21,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtFilter jwtFilter;
     @Bean
-    public PasswordEncoder getEncoder(){
+    public PasswordEncoder getEncoder() {
         return new BCryptPasswordEncoder(4);
     }
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/auth", "/swagger-ui/**",  "/v3/api-docs/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers("/create").permitAll()
+                        .requestMatchers("/auth", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/user/create").permitAll()
+                        .requestMatchers("/product/all").permitAll()
+                        .requestMatchers("/product/{id}").permitAll()
                         .requestMatchers("/**").authenticated())
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))

@@ -16,7 +16,7 @@ public class CartController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
     public CartDto createNewCartOnCurrentUser() {
-        return cartService.createNewCartOnCurrenUser();
+        return cartService.createNewCartOnCurrentUser();
     }
     @GetMapping("/{id}")
     public CartDto getById(@PathVariable Long id) {

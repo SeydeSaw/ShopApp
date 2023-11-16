@@ -9,9 +9,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-
-
-    //    @Mapping(target = "password", ignore = true)
     @Mapping(target = "password", expression = "java(\"******\")")
     UserDto mapToDto(User user);
 

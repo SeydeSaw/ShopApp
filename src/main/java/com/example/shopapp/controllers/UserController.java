@@ -5,6 +5,7 @@ import com.example.shopapp.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +24,13 @@ public class UserController {
         return userService.createUser(userDto);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public UserDto getById(@PathVariable Long id) {
         return userService.getById(id);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/all")
     public List<UserDto> getAll() {
         return userService.getAll();

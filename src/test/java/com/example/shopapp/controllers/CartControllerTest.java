@@ -1,5 +1,6 @@
 package com.example.shopapp.controllers;
 
+import com.example.shopapp.domain.entity.Cart;
 import com.example.shopapp.domain.enums.CartStatus;
 import com.example.shopapp.dto.CartDto;
 import com.example.shopapp.dto.OrderDetailDto;
@@ -36,12 +37,31 @@ class CartControllerTest {
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/cart/create"))
                 .andExpect(status().isCreated())
                 .andReturn();
+
         String CartDtoResultJson = mvcResult.getResponse().getContentAsString();
         CartDto cartDtoResult = objectMapper.readValue(CartDtoResultJson, CartDto.class);
         Assertions.assertEquals("Alice Suss", cartDtoResult.getClientFullName());
         Assertions.assertEquals(CartStatus.ACTIVE.toString(), cartDtoResult.getStatus());
         Assertions.assertEquals(0.0, cartDtoResult.getTotalPrice());
     }
+
+    @Test
+    @WithUserDetails("user1")
+    void getByIdTest() throws Exception {
+
+        CartDto cartDto = new CartDto();
+        cartDto.setId(1L);
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/cart/{id}", cartDto.getId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String CartDtoResultJson = mvcResult.getResponse().getContentAsString();
+        CartDto cartDtoResult = objectMapper.readValue(CartDtoResultJson, CartDto.class);
+        Assertions.assertEquals(2L, cartDtoResult.getClientId());
+        Assertions.assertEquals("ACTIVE", cartDtoResult.getStatus());
+    }
+
     @Test
     @WithUserDetails("user2")
     void addProductToCartTest() throws Exception {
@@ -49,11 +69,13 @@ class CartControllerTest {
         orderDetailDto.setProductId(2L);
         orderDetailDto.setQuantity(4);
         String orderDetailDtoJson = objectMapper.writeValueAsString(orderDetailDto);
+
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/cart/add-product")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(orderDetailDtoJson))
                 .andExpect(status().isOk())
                 .andReturn();
+
         String CartDtoResultJson = mvcResult.getResponse().getContentAsString();
         CartDto cartDtoResult = objectMapper.readValue(CartDtoResultJson, CartDto.class);
         Assertions.assertEquals(2799.80, cartDtoResult.getTotalPrice());

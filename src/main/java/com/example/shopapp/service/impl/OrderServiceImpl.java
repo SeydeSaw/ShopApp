@@ -2,8 +2,11 @@ package com.example.shopapp.service.impl;
 
 import com.example.shopapp.domain.entity.Cart;
 import com.example.shopapp.domain.entity.Order;
+import com.example.shopapp.domain.entity.User;
+import com.example.shopapp.domain.enums.CartStatus;
 import com.example.shopapp.dto.OrderDto;
 import com.example.shopapp.mapper.OrderMapper;
+import com.example.shopapp.provider.UserProvider;
 import com.example.shopapp.repository.CartRepository;
 import com.example.shopapp.repository.OrderRepository;
 import com.example.shopapp.service.CartService;
@@ -61,7 +64,6 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrderById(Long id) {
         orderRepository.deleteById(id);
     }
-
 
     private void updateOrderNewData(OrderDto orderDto, Order order) {
         Cart cart = null;

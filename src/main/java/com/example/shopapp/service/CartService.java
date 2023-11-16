@@ -7,7 +7,7 @@ import com.example.shopapp.dto.OrderDetailDto;
 import java.math.BigDecimal;
 
 public interface CartService {
-    CartDto createNewCartOnCurrenUser();
+    CartDto createNewCartOnCurrentUser();
     CartDto getById(Long id);
     CartDto updateById(CartDto cartDto, Long id);
     void deleteCartById(Long id);

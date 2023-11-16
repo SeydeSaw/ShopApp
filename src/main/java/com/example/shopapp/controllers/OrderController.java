@@ -5,6 +5,8 @@ import com.example.shopapp.dto.CartDto;
 import com.example.shopapp.dto.OrderDto;
 import com.example.shopapp.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class OrderController {
 
     private final OrderService orderService;
+
     @PostMapping("/create")
     public OrderDto createNewOrder(@RequestBody OrderDto orderDto) {
         return orderService.createNewOrder(orderDto);
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public OrderDto getById(@PathVariable Long id) {
         return orderService.getById(id);

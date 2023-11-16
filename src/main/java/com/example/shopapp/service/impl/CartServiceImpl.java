@@ -31,7 +31,7 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public CartDto createNewCartOnCurrenUser() {
+    public CartDto createNewCartOnCurrentUser() {
         Cart cart = new Cart();
         User client = userProvider.getCurrentUser();
         cart.setClient(client);

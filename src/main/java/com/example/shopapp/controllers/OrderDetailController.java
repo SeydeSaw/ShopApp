@@ -19,6 +19,7 @@ public class OrderDetailController {
     public OrderDetailDto createNewOrderDetail(@RequestBody OrderDetailDto orderDetailDto) {
         return orderDetailService.createNewOrderDetail(orderDetailDto);
     }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
     public OrderDetailDto getById(@PathVariable Long id) {
         return orderDetailService.getById(id);
