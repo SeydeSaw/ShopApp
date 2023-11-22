@@ -21,13 +21,14 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/create")
-    @Operation(summary = "create new user")
+    @Operation(summary = "for all users")
     public UserDto createUser(@RequestBody UserDto userDto) {
         return userService.createUser(userDto);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
+    @Operation(summary = "for ADMIN")
     public UserDto getById(@PathVariable Long id) {
         return userService.getById(id);
     }
@@ -36,8 +37,10 @@ public class UserController {
     public UserDto getCurrentUser() {
         return userService.getCurrentUser();
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/all")
+    @Operation(summary = "for ADMIN")
     public List<UserDto> getAll() {
         return userService.getAll();
     }
@@ -51,5 +54,4 @@ public class UserController {
     public void deleteCurrentUser() {
         userService.deleteCurrentUser();
     }
-
 }

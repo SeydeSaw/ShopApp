@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserDto getById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("User not find"));
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not find"));
         return userMapper.mapToDto(user);
     }
 
@@ -55,12 +55,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserDto updateById(UserDto userDto, Long id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("User not find"));
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not find"));
         updateUserNewData(userDto, user);
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
         return convertToUserDto(user);
     }
+
     @Transactional
     @Override
     public void deleteCurrentUser() {
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            if (passwordEncoder.matches(password,user.getPassword())) {
+            if (passwordEncoder.matches(password, user.getPassword())) {
                 return user;
             }
         }

@@ -1,6 +1,5 @@
 package com.example.shopapp.dto;
 
-import com.example.shopapp.entity.Cart;
 import lombok.Data;
 
 import java.util.List;

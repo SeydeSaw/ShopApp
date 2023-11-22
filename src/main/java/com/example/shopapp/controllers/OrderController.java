@@ -2,6 +2,7 @@ package com.example.shopapp.controllers;
 
 import com.example.shopapp.dto.OrderDto;
 import com.example.shopapp.service.OrderService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class OrderController {
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{id}")
+    @Operation(summary = "for ADMIN")
     public OrderDto getById(@PathVariable Long id) {
         return orderService.getById(id);
     }

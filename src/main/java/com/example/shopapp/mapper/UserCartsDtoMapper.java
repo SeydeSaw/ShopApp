@@ -17,6 +17,7 @@ public interface UserCartsDtoMapper {
     default List<UserCartsDto> mapToListDto(Map<User, List<Cart>> userCartsMap) {
         return userCartsMap.entrySet().stream().map(this::mapEntryToDto).collect(Collectors.toList());
     }
+
     ;
 
     @Mapping(source = "key", target = "clientFullName", qualifiedByName = "getFullName")
@@ -30,6 +31,7 @@ public interface UserCartsDtoMapper {
                 .flatMap(cart -> cart.getOrderDetails().stream())
                 .map(orderDetail -> orderDetail.getProduct().getPrice()
                         .multiply(BigDecimal.valueOf(orderDetail.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add).doubleValue();
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .doubleValue();
     }
 }

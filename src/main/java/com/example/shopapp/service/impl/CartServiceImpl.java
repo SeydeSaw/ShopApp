@@ -126,7 +126,7 @@ public class CartServiceImpl implements CartService {
     public List<UserCartsDto> getAllCarts() {
 
         List<Cart> allCarts = cartRepository.findAll();
-        Map<User,List<Cart>> userCartsMap = allCarts.stream()
+        Map<User, List<Cart>> userCartsMap = allCarts.stream()
                 .collect(Collectors.groupingBy(Cart::getClient, Collectors.toList()));
 
         return userCartsDtoMapper.mapToListDto(userCartsMap);

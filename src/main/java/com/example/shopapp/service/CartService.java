@@ -10,11 +10,17 @@ import java.util.List;
 
 public interface CartService {
     CartDto createNewCartOnCurrentUser();
+
     CartDto getById(Long id);
+
     CartDto updateById(CartDto cartDto, Long id);
+
     void deleteCartById(Long id);
+
     CartDto addProductToCart(OrderDetailDto orderDetailDto);
+
     CartDto completeCartOfUser();
+
     BigDecimal calculateTotalPrice(Cart cart);
 
     List<UserCartsDto> getAllCarts();
